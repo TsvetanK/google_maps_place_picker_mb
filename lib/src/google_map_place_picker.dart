@@ -58,6 +58,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.zoomGesturesEnabled = true,
     this.zoomControlsEnabled = false,
     this.fullMotion = false,
+    this.polygons = const <Polygon>{},
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -65,6 +66,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   final SelectedPlaceWidgetBuilder? selectedPlaceWidgetBuilder;
   final PinBuilder? pinBuilder;
+
+  final Set<Polygon> polygons;
 
   final ValueChanged<String>? onSearchFailed;
   final VoidCallback? onMoveStart;
@@ -223,6 +226,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         }
         onMapCreated?.call(controller);
       },
+      polygons: polygons,
       onCameraIdle: () {
         if (provider.isAutoCompleteSearching) {
           provider.isAutoCompleteSearching = false;

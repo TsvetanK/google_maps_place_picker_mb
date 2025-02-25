@@ -77,6 +77,7 @@ class PlacePicker extends StatefulWidget {
     this.onMapTypeChanged,
     this.zoomGesturesEnabled = true,
     this.zoomControlsEnabled = false,
+    this.polygons = const <Polygon>{},
   }) : super(key: key);
 
   final String apiKey;
@@ -110,6 +111,8 @@ class PlacePicker extends StatefulWidget {
   final List<Component>? autocompleteComponents;
   final bool? strictbounds;
   final String? region;
+
+  final Set<Polygon> polygons;
 
   /// If set the picker can only pick addresses in the given circle area.
   /// The section will be highlighted.
@@ -481,6 +484,7 @@ class _PlacePickerState extends State<PlacePicker> {
       hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
       selectText: widget.selectText,
       outsideOfPickAreaText: widget.outsideOfPickAreaText,
+      polygons: widget.polygons,
       onToggleMapType: () {
         if (provider == null) return;
         provider!.switchMapType();
