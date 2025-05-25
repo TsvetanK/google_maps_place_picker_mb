@@ -491,6 +491,7 @@ class _PlacePickerState extends State<PlacePicker> {
       selectText: widget.selectText,
       outsideOfPickAreaText: widget.outsideOfPickAreaText,
       polygons: widget.polygons,
+      onCameraStop: widget.onCameraStop,
       onToggleMapType: () {
         if (provider == null) return;
         provider!.switchMapType();
