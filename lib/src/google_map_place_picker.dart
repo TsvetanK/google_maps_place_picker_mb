@@ -60,7 +60,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.zoomControlsEnabled = false,
     this.fullMotion = false,
     this.polygons = const <Polygon>{},
-    this.onCameraStop,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -77,7 +76,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final VoidCallback? onToggleMapType;
   final VoidCallback? onMyLocation;
   final ValueChanged<PickResult>? onPlacePicked;
-  final ValueChanged<PickResult>? onCameraStop;
   final Function(PlaceProvider)? onPickPrediction;
 
   final int? debounceMilliseconds;
@@ -376,7 +374,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
           if (selectedPlaceWidgetBuilder == null) {
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
-            _getSelectedResult(data.item1 as PickResult);
             return Builder(
                 builder: (builderContext) => selectedPlaceWidgetBuilder!(
                     builderContext, data.item1, data.item2, data.item3));
@@ -478,21 +475,6 @@ class GoogleMapPlacePicker extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _getSelectedResult(PickResult result) {
-    bool canBePicked = pickArea == null ||
-        pickArea!.radius <= 0 ||
-        Geolocator.distanceBetween(
-                pickArea!.center.latitude,
-                pickArea!.center.longitude,
-                result.geometry!.location.lat,
-                result.geometry!.location.lng) <=
-            pickArea!.radius;
-
-    if (canBePicked) {
-      onCameraStop?.call(result);
-    }
   }
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
