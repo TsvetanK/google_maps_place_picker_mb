@@ -79,6 +79,7 @@ class PlacePicker extends StatefulWidget {
     this.zoomControlsEnabled = false,
     this.polygons = const <Polygon>{},
     this.onPickPrediction,
+    this.onCameraStop,
   }) : super(key: key);
 
   final String apiKey;
@@ -116,6 +117,7 @@ class PlacePicker extends StatefulWidget {
   final Set<Polygon> polygons;
 
   final Function(PlaceProvider)? onPickPrediction;
+  final ValueChanged<PickResult>? onCameraStop;
 
   /// If set the picker can only pick addresses in the given circle area.
   /// The section will be highlighted.

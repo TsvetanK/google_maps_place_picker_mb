@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     this.zoomControlsEnabled = false,
     this.fullMotion = false,
     this.polygons = const <Polygon>{},
+    this.onCameraStop,
   }) : super(key: key);
 
   final LatLng initialTarget;
@@ -76,6 +78,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
   final VoidCallback? onToggleMapType;
   final VoidCallback? onMyLocation;
   final ValueChanged<PickResult>? onPlacePicked;
+  final ValueChanged<PickResult>? onCameraStop;
   final Function(PlaceProvider)? onPickPrediction;
 
   final int? debounceMilliseconds;
@@ -374,6 +377,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           if (selectedPlaceWidgetBuilder == null) {
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
+            widget.onCameraStop?.call(data.item1);
             return Builder(
                 builder: (builderContext) => selectedPlaceWidgetBuilder!(
                     builderContext, data.item1, data.item2, data.item3));
