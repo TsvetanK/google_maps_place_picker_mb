@@ -377,7 +377,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           if (selectedPlaceWidgetBuilder == null) {
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
-            widget.onCameraStop?.call(data.item1);
+            onCameraStop?.call(data.item1 as PickResult);
             return Builder(
                 builder: (builderContext) => selectedPlaceWidgetBuilder!(
                     builderContext, data.item1, data.item2, data.item3));
