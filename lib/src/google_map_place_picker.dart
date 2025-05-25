@@ -376,10 +376,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           if (selectedPlaceWidgetBuilder == null) {
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
-            if (data.item1 != null) {
-              onCameraStop?.call(data.item1 as PickResult);
-            }
-
+            _getSelectedResult(data.item1 as PickResult);
             return Builder(
                 builder: (builderContext) => selectedPlaceWidgetBuilder!(
                     builderContext, data.item1, data.item2, data.item3));
@@ -481,6 +478,21 @@ class GoogleMapPlacePicker extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _getSelectedResult(PickResult result) {
+    bool canBePicked = pickArea == null ||
+        pickArea!.radius <= 0 ||
+        Geolocator.distanceBetween(
+                pickArea!.center.latitude,
+                pickArea!.center.longitude,
+                result.geometry!.location.lat,
+                result.geometry!.location.lng) <=
+            pickArea!.radius;
+
+    if (canBePicked) {
+      onCameraStop?.call(result);
+    }
   }
 
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
